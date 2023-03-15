@@ -1,22 +1,29 @@
-import PropTypes from 'prop-types';
 import styles from './filter.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSearchQuery } from '../../redux/selectors';
+import { changeSearchQuery } from '../../redux/slices/filtersSlice';
 
-const Filter = ({ term, setTerm }) => (
-  <div className={styles.container}>
-    <input
-      className={styles.searchInput}
-      type="text"
-      name="filter"
-      placeholder="Search..."
-      value={term}
-      onChange={(e) => setTerm(e.currentTarget.value)}
-    />
-  </div>
-);
+const Filter = () => {
+
+  const term = useSelector(getSearchQuery);
+  const dispatch = useDispatch();
+
+  const handleChange = (event) => {
+    dispatch(changeSearchQuery(event.currentTarget.value))
+  }
+
+  return (
+    <div className={styles.container}>
+      <input
+        className={styles.searchInput}
+        type='text'
+        name='filter'
+        placeholder='Search...'
+        value={term}
+        onChange={handleChange}
+      />
+    </div>
+  );
+};
 
 export default Filter;
-
-Filter.propTypes = {
-  term: PropTypes.string.isRequired,
-  setTerm: PropTypes.func.isRequired,
-};

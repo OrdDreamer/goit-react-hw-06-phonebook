@@ -1,18 +1,19 @@
 import styles from './phonebook-form.module.css';
-import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addContact } from '../../redux/slices/contactsSlice';
 
-export const PhonebookForm = ({ addContact }) => {
+export const PhonebookForm = () => {
 
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
+  const dispatch = useDispatch();
+
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    if (addContact({ name, number })) {
-      reset();
-    }
+    dispatch(addContact({ name, number }));
+    reset();
   };
 
   const reset = () => {
@@ -51,8 +52,4 @@ export const PhonebookForm = ({ addContact }) => {
       <button className={styles.addButton} type='submit'>Add contact</button>
     </form>
   );
-};
-
-PhonebookForm.propTypes = {
-  addContact: PropTypes.func.isRequired,
 };
